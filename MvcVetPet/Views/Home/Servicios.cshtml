@@ -1,0 +1,64 @@
+﻿@model List<Servicio>
+
+@{
+    ViewData["Title"] = "Servicios";
+}
+
+<section id="services">
+    <div class="serviceBox introServiceBox text-center">
+        <div class="black-overlay"></div>
+        <h2 data-scroll-reveal="enter left move 10px over 1s after 0.2s" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+            <span>Servicios</span>
+        </h2>
+    </div>
+    <div class="serviceBox whiteBox text-center">
+        <div class="valign">
+            <h4 data-scroll-reveal="enter right move 10px over 1s after 0.6s" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+                <span>TODO LO QUE OFRECEMOS</span>
+            </h4>
+            <div class="orbitron top-orb">\\\///</div>
+        </div>
+    </div>
+
+
+    @for (int i = 0; i < Model.Count; i += 2)
+    {
+        <div class="serviceBox whiteBox text-center">
+            <div class="valign">
+                <h4 data-scroll-reveal="enter left move 10px over 1s after 0.2s" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+                    <span>@Model[i].Nombre</span>
+                </h4>
+                <div class="orbitron top-orb">\\\///</div>
+                <p data-scroll-reveal="enter left move 10px over 1s after 0.2s" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+                    @Model[i].Descripcion
+                </p>
+            </div>
+        </div>
+        <div class="serviceBox blackBox text-center">
+            <div class="valign">
+                <img src="~/images/servicios/@Model[i].Imagen">
+            </div>
+        </div>
+
+        @if (i + 1 < Model.Count)
+        {
+            <div class="serviceBox blackBox text-center">
+                <div class="valign">
+                    <img src="~/images/servicios/@Model[i+1].Imagen">
+                </div>
+            </div>
+            <div class="serviceBox whiteBox text-center">
+                <div class="valign">
+                    <h4 data-scroll-reveal="enter right move 10px over 1s after 0.2s" data-scroll-reveal-id="52" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+                        <span>@Model[i+1].Nombre</span>
+                    </h4>
+                    <div class="orbitron top-orb">\\\///</div>
+                    <p data-scroll-reveal="enter left move 10px over 1s after 0.2s" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
+                        @Model[i+1].Descripcion
+                    </p>
+                </div>
+            </div>
+        }
+    }
+
+</section>

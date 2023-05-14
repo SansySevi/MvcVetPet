@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Sandra Sevilleja Gonzalez">
+    <title>@ViewData["Title"] - MvcVetPet</title>
+
+    <!--Bootstrap core CSS* -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/NavbarStyleSheet.css" rel="stylesheet" />
+    <link href="~/css/LayoutStyleSheet.css" rel="stylesheet" />
+    <link href="~/css/cover.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    @if (IsSectionDefined("home"))
+    {
+        //ALGUNA VISTA ESTA ESCRIBIENDO EN HOME
+        @RenderSection("home", false)
+    }
+    else
+    {
+        //CODIGO ESTATICO EN LAYOUT
+        <header class="cd-header nav-bar">
+            <div class="header-wrapper">
+                <div class="logo-wrap">
+                    <a asp-controller="Home" asp-action="Index" class="hover-target">
+                        <img src="~/images/egyptian_animal_symbol.png" alt="Bootstrap" width="30" height="24">
+
+                        <span>Vet</span>Care
+                    </a>
+                </div>
+                <div class="nav-but-wrap">
+                    <div class="menu-icon hover-target">
+                        <span class="menu-icon__line menu-icon__line-left"></span>
+                        <span class="menu-icon__line"></span>
+                        <span class="menu-icon__line menu-icon__line-right"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="nav">
+            <div class="nav__content">
+                <ul class="nav__list">
+                    <li class="nav__list-item active-nav"><a asp-controller="Home" asp-action="Index" class="hover-target">home</a></li>
+                    <li class="nav__list-item"><a asp-controller="Home" asp-action="Servicios" class="hover-target">servicios</a></li>
+                    @*<li class="nav__list-item"><a href="#" class="hover-target">sobre nosotros</a></li>*@
+                    <li class="nav__list-item"><a asp-controller="Usuarios" asp-action="Login" class="hover-target">nuestra app</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+
+    }
+
+    <main>
+        <div class="mainer">
+
+            @RenderBody()
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="tools-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+                        <div class="maxheight" style="height: 156px;">
+                            <div class="box_inner">
+                                <p class="title">Teléfono</p>
+                                <p>918115357</p>
+                                <p>918113719</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 wow fadeInUp animated" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                        <div class="maxheight" style="height: 156px;">
+                            <div class="box_inner">
+                                <p class="title">E-Mail</p>
+                                <p><a href="#">clinicaveterinariaserbal<br />@@gmail.com</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 wow fadeInUp animated" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                    <div class="maxheight" style="height: 156px;">
+                    <div class="box_inner">
+                    <p class="title">Follow Us</p>
+                    <ul class="follow_icon">
+                    <li><a href="#" class="fa fa-facebook"></a></li>
+                    <li><a href="#" class="fa fa-instagram"></a></li>
+                    </ul>
+                    </div>
+                    </div>
+                    </div>*@
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 wow fadeInUp animated" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                        <div class="indent maxheight" style="height: 156px;">
+                            <div class="box_inner">
+                                <p class="title">Dirección</p>
+                                <p>Pº de San Cosme, 3 <br /> 28600 Navalcarnero Madrid</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery-3.6.3.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+
+            // Page scrolling function for the nav-links
+            $(".nav-link").click(function () {
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top - 80 }, 1400);
+                return false;
+            });
+
+            // Function to change the nav-bar on scroll
+            $(window).scroll(function () {
+                $(window).scrollTop() >= 110
+                    ? $(".nav-bar").addClass("scrolled")
+                    : $(".nav-bar").removeClass("scrolled");
+            });
+
+        });
+
+        (function ($) {
+            "use strict";
+
+            //Navigation
+
+            var app = (function () {
+                var body = undefined;
+                var menu = undefined;
+                var menuItems = undefined;
+                var init = function init() {
+                    body = document.querySelector("body");
+                    menu = document.querySelector(".menu-icon");
+                    menuItems = document.querySelectorAll(".nav__list-item");
+                    applyListeners();
+                };
+                var applyListeners = function applyListeners() {
+                    menu.addEventListener("click", function () {
+                        return toggleClass(body, "nav-active");
+                    });
+                };
+                var toggleClass = function toggleClass(element, stringClass) {
+                    if (element.classList.contains(stringClass))
+                        element.classList.remove(stringClass);
+                    else element.classList.add(stringClass);
+                };
+                init();
+            })();
+
+
+        })(jQuery);
+
+
+    </script>
+</body>
+</html>
+

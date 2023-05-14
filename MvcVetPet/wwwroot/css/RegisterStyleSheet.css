@@ -1,0 +1,343 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Raleway, sans-serif;
+}
+
+body {
+    background-image: url("../images/register_back.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+.screen {
+    background: linear-gradient(90deg, #dba63c, #fed383);
+    position: relative;
+    height: 600px;
+    width: 360px;
+    box-shadow: 0px 0px 24px #8b867e;
+    border-radius: 2%;
+}
+
+.screen__content {
+    z-index: 1;
+    position: relative;
+    height: 100%;
+}
+
+.screen__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
+}
+
+.screen__background__shape {
+    transform: rotate(45deg);
+    position: absolute;
+}
+
+.screen__background__shape1 {
+    height: 520px;
+    width: 520px;
+    background: #FFF;
+    top: -50px;
+    right: 120px;
+    border-radius: 0 72px 0 0;
+}
+
+.screen__background__shape2 {
+    height: 220px;
+    width: 220px;
+    background: #458ead;
+    top: -172px;
+    right: 0;
+    border-radius: 32px;
+}
+
+.screen__background__shape3 {
+    height: 540px;
+    width: 190px;
+    background: linear-gradient(270deg, #215a72, #8bceeb);
+    top: -24px;
+    right: 0;
+    border-radius: 32px;
+}
+
+.screen__background__shape4 {
+    height: 400px;
+    width: 200px;
+    background: #458ead;
+    top: 420px;
+    right: 50px;
+    border-radius: 60px;
+}
+
+.container_form {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.login {
+    width: 320px;
+    padding: 30px;
+    padding-top: 68px;
+}
+
+.login__field {
+    padding: 20px 0px;
+    position: relative;
+}
+
+.login__icon {
+    position: absolute;
+    top: 30px;
+    color: #7875B5;
+}
+
+.login__input {
+    border: none;
+    border-bottom: 2px solid #D1D1D4;
+    background: none;
+    padding: 10px;
+    padding-left: 24px;
+    font-weight: 700;
+    width: 75%;
+    transition: .2s;
+}
+
+    .login__input:active,
+    .login__input:focus,
+    .login__input:hover {
+        outline: none;
+        border-bottom-color: #458ead;
+    }
+
+.login__submit {
+    background: #fff;
+    font-size: 14px;
+    margin-top: 30px;
+    padding: 16px 20px;
+    border-radius: 26px;
+    border: 1px solid #D4D3E8;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: #38738c;
+    box-shadow: 0px 2px 2px #2d6780;
+    cursor: pointer;
+    transition: .2s;
+}
+
+    .login__submit:active,
+    .login__submit:focus,
+    .login__submit:hover {
+        border-color: #6A679E;
+        outline: none;
+    }
+
+.button__icon {
+    font-size: 24px;
+    margin-left: auto;
+    color: #7875B5;
+}
+
+svg {
+    height: 15px;
+    fill: #458ead;
+}
+
+    svg.svg_sup {
+        height: 57px;
+        padding: 9px;
+    }
+
+
+.social-login {
+    position: absolute;
+    height: 121px;
+    width: 160px;
+    text-align: center;
+    bottom: -19px;
+    right: 0px;
+    color: #fff;
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-login__icon {
+    padding: 6px 0px;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0px 0px 8px #7875B5;
+}
+
+    .social-login__icon:hover {
+        transform: scale(1.5);
+    }
+
+
+
+
+/*========================================================
+                RESPONSIVE LAYOUTS STYLES 
+=========================================================*/
+
+
+@media (max-width: 1200px) {
+    body {
+        /*background: linear-gradient(90deg, #fcd07f, #2b657e);*/
+        background: #c7d1d5;
+    }
+
+    .screen {
+        width: 100%;
+        background-image: url("../images/register_back.jpeg");
+        background-size: cover;
+        background-attachment: fixed;
+        overflow: hidden;
+        background-position-x: center;
+        height: 80vh;
+    }
+
+    .screen__background__shape1 {
+        display: none;
+    }
+
+    .screen__background__shape2 {
+        height: 220px;
+        width: 220px;
+        top: -123px;
+        right: 445px;
+    }
+
+    .screen__background__shape3 {
+        background: linear-gradient(270deg, #dba63c, #fed383);
+        height: 1040px;
+        width: 609px;
+        top: 236px;
+        right: 585px;
+        transform: rotate(117deg);
+    }
+
+    .screen__background__shape4 {
+        top: 457px;
+        right: -71px;
+    }
+
+    .login {
+        margin-left: 1em;
+        margin-top: 9em;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .container_form {
+        display: flex;
+        justify-content: center;
+    }
+
+    .login__input {
+        width: 100%;
+    }
+
+    .screen {
+        background-color: white;
+        background-image: none;
+    }
+
+}
+
+/*@media (max-width: 546px) {
+
+    .login {
+        margin-left: 30%;
+        margin-top: 8.5rem;
+    }
+}*/
+
+@media (max-width: 320px) {
+
+    /*.login {
+        margin-left: 0rem;
+        margin-top: 4rem;
+    }*/
+
+    .screen__background__shape2 {
+        right: 2px;
+    }
+
+    /*.social-login {
+        right: 36px;
+    }*/
+}
+
+
+/*@media (max-width: 991px) and (min-width:950px) {
+    container {
+        margin-right: -84px;
+    }
+}
+
+@media (max-width: 950px){
+    body {
+        background: linear-gradient(90deg, #fcd07f, #2b657e);
+    }
+}*/
+
+
+/* RESPONSIVE AXIS Y
+========================================================*/
+
+
+/*@media (max-height: 665px) {
+    .screen {
+        height: 506px;
+        width: 360px;
+    }
+
+    .login {
+        width: 320px;
+        padding: 30px;
+        padding-top: 88px;
+    }
+
+    .social-login {
+        position: absolute;
+        height: 99px;
+        width: 171px;
+    }
+}
+
+@media (max-height: 664px) {
+    .container {
+        margin-top: 4%;
+    }
+}*/
+
+
+/*1400 EJE x PRIMER CORTE DE ALTURA
+
+665 EJE Y ajuste de margenes SUPERIOR*/
