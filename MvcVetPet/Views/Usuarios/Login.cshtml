@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "_TemplateLog";
+    ViewData["Title"] = "Login";
+}
+
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            <div>
+                <a asp-controller="Home" asp-action="Index">
+                    <svg style="height: 57px;padding: 9px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path d="M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM217.4 376.9c4.2 4.5 10.1 7.1 16.3 7.1c12.3 0 22.3-10 22.3-22.3V304h96c17.7 0 32-14.3 32-32V240c0-17.7-14.3-32-32-32H256V150.3c0-12.3-10-22.3-22.3-22.3c-6.2 0-12.1 2.6-16.3 7.1L117.5 242.2c-3.5 3.8-5.5 8.7-5.5 13.8s2 10.1 5.5 13.8l99.9 107.1z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="container_form">
+                <form class="login" method="post" >
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="login__field">
+                        <i class="login__icon">
+                            <svg style="height:15px; color:aqua" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                            </svg>
+                        </i>
+                        <input type="text" name="username" class="login__input" placeholder="User name / Email" required />
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z" />
+                            </svg>
+                        </i>
+                        <input type="password" name="password" class="login__input" placeholder="Password" required>
+                    </div>
+                    <button class="button login__submit">
+                        <span class="button__text">Log In</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="social-login">
+                <h6>
+                    ¿Aún no estas con nosotros?
+                </h6>
+                <div class="social-icons">
+                    <a class="social-login__icon" asp-controller="Usuarios" asp-action="Register">Registrar</a>
+                </div>
+            </div>
+        </div>
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>
+    </div>
+
+
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+    @if (@ViewData["MENSAJE"] != null)
+    {
+
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'No ha sido posible loguearse',
+                text: '@ViewData["MENSAJE"].ToString()',
+                showConfirmButton: false,
+                timer: 3500
+            @*confirmButtonText: 'Exit',
+            confirmButtonColor: '#3085d6'*@
+                        })
+        </script>
+    }
+</div>
+
+

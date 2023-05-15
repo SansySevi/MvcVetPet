@@ -20,7 +20,7 @@ namespace MvcVetPet.Services
         }
 
 
-        //METODOD PARA RECUPERAR TODOS LOS BLOBS
+        //METODO PARA RECUPERAR TODOS LOS BLOBS
         public async Task<List<BlobModel>> GetBlobsAsync(string containerName)
         {
             //RECUPERAMOS UN CLIENT DEL CONTAINER
@@ -41,7 +41,7 @@ namespace MvcVetPet.Services
             return blobModels;
         }
 
-        //METODOD PARA RECUPERAR UN BLOBS
+        //METODO PARA RECUPERAR UN BLOBS
         public async Task<BlobModel> FindBlobPerfil(string containerName, string blobName, string usuario)
         {
             string connectionString = this.UrlAzureStorage;

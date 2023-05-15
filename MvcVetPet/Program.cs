@@ -1,8 +1,12 @@
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MvcVetPet.Helpers;
 using MvcVetPet.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 string azureKeys =
     builder.Configuration.GetValue<string>
@@ -12,8 +16,10 @@ BlobServiceClient blobServiceClient =
 builder.Services.AddTransient<BlobServiceClient>(
     x => blobServiceClient);
 
-
+builder.Services.AddSingleton<HelperClaims>();
 builder.Services.AddTransient<ServiceStorageBlobs>();
+builder.Services.AddTransient<ServiceApp>();
+builder.Services.AddTransient<ServiceUsuarios>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

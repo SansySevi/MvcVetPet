@@ -1,0 +1,95 @@
+﻿@model NugetVetPet.Models.Usuario
+
+@{
+    Layout = "_TemplateRegister";
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            <div class="container_form">
+                <form class="login" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="login__field">
+                        <i class="login__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                            </svg>
+                        </i>
+                        <input type="text" name="apodo" class="login__input" placeholder="Nombre Usuario" required />
+                        <span asp-validation-for="Apodo" class="text-danger"></span>
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                            </svg>
+                        </i>
+                        <input type="text" name="email" class="login__input" placeholder="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z" />
+                            </svg>
+                        </i>
+                        <input type="password" name="password" class="login__input" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <label>Seleccione un fichero</label>
+                    <input type="file" name="file" class="form-control" />
+
+                    <button class="button login__submit">
+                        <span class="button__text">Sing Up</span>
+                    </button>
+                </form>
+            </div>
+            <div class="social-login">
+                <h6>
+                    ¿Ya tienes cuenta?
+                </h6>
+                <div class="social-icons">
+                    <a class="social-login__icon" asp-controller="Usuarios" asp-action="Login">Log In</a>
+                </div>
+            </div>
+        </div>
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+    @if (@ViewData["REGISTER"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: true,
+                confirmButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                     window.location.href = '@Url.Action("Login", "Usuarios")';
+                }
+            })
+        </script>
+    }
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+

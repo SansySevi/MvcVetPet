@@ -1,0 +1,160 @@
+﻿@model List<Mascota>
+
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "User Zone";
+    BlobModel imgPerfil = ViewData["IMAGEN_PERFIL"] as BlobModel;
+}
+
+<div class="container">
+    <div class="card border">
+        <!-- Card header -->
+        <div class="card-header border-bottom">
+            <h4 class="card-header-title">Información Personal</h4>
+        </div>
+
+        <!-- Card body START -->
+        <div class="card-body">
+            <!-- Form START -->
+            <form class="row g-3" method="post" enctype="multipart/form-data">
+                <!-- Profile photo -->
+                <div class="col-12">
+                    <label class="form-label">Upload your profile photo<span class="text-danger">*</span></label>
+                    <div class="d-flex align-items-center">
+                        <label class="position-relative me-4" for="uploadfile-1" title="Replace this pic">
+                            <!-- Avatar place holder -->
+                            <span class="avatar avatar-xl">
+                                <img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="@imgPerfil.Url" alt="">
+                            </span>
+                        </label>
+                        <!-- Upload button -->
+                        <label class="btn btn-sm btn-secondary-soft mb-0" for="uploadfile-1">Change</label>
+                        <input id="uploadfile-1" name="fichero" class="form-control d-none" type="file">
+                    </div>
+                </div>
+
+                <!-- Id -->
+                <input name="idusuario" type="hidden" class="form-control" value="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+
+                <!-- Name -->
+                <div class="col-md-6">
+                    <label class="form-label">Nombre<span class="text-danger">*</span></label>
+                    <input name="nombre" type="text" class="form-control" value="@Context.User.FindFirstValue("Nombre")" placeholder="Pon tu nombre completo">
+                </div>
+
+                <!-- NickName -->
+                <div class="col-md-6">
+                    <label class="form-label">NickName<span class="text-danger">*</span></label>
+                    <input name="apodo" type="text" class="form-control" value="@Context.User.Identity.Name" placeholder="Pon tu apodo">
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <label class="form-label">Email<span class="text-danger">*</span></label>
+                    <input name="email" type="email" class="form-control" value="@Context.User.FindFirstValue("Email")" placeholder="Introduce tu E-mail">
+                </div>
+
+                <!-- Mobile -->
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono de contacto<span class="text-danger">*</span></label>
+                    <input name="telefono" type="text" class="form-control" value="@Context.User.FindFirstValue("Telefono")" placeholder="Enter your mobile number">
+                </div>
+
+                <!-- Button -->
+                <div class="col-12 text-end">
+                    <button class="btn btn-warning mb-0">Guardar Cambios</button>
+                </div>
+            </form>
+            <!-- Form END -->
+        </div>
+        <!-- Card body END -->
+    </div>
+
+    <br />
+
+    @if (Model.Count > 0)
+    {
+        <div class="col-lg-8 col-xl-9" style="padding:0px">
+
+            <!-- Pets Section START -->
+            <div class="card border bg-transparent-blue">
+                <!-- Card header -->
+                <div class="card-header bg-transparent-blue border-bottom">
+                    <h4 class="card-header-title">Mascotas</h4>
+                </div>
+
+                <!-- Card body START -->
+                <div class="card-body vstack gap-4">
+                    @foreach (Mascota item in Model)
+                    {
+                        <!-- Wishlist item START -->
+                        <div class="card shadow p-2">
+                            <div class="row g-0">
+                                <!-- Card img -->
+                                <div class="col-md-3">
+                                    <span class="avatar avatar-xl rounded-circle border border-white border-3 shadow">
+                                        <img id="uploadfile-1-preview" class="avatar-img " src="~/uploads/mascotas/@item.Imagen" alt="">
+                                    </span>
+                                </div>
+                                <!-- Card body -->
+                                <div class="col-md-9">
+                                    <div class="card-body py-md-2 d-flex flex-column h-100">
+
+                                        <!-- Title -->
+                                        <h5 class="card-title mb-1">@item.Nombre</h5>
+                                        <small>@item.Raza</small>
+
+                                        <!-- Price and Button -->
+                                        <div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
+                                            <!-- Button -->
+                                            <div class="d-flex align-items-center">
+                                                <span class="mb-0 me-2">Fecha de nacimiento:</span>
+                                                <h5 class="fw-bold mb-0 me-1">@item.Fecha_Nacimiento.ToString("yyyy-MM-dd")</h5>
+
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="mb-0 me-2">Peso:</span>
+                                                <h5 class="fw-bold mb-0 me-1">@item.Peso<span class="mb-0 me-2">kg</span></h5>
+
+                                            </div>
+                                            <!-- Price -->
+                                            <div class="mt-3 mt-sm-0">
+                                                <a asp-controller="Usuarios" asp-action="EditPet" asp-route-idmascota="@item.IdMascota" class="btn btn-sm btn-dark w-100 mb-0">Editar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Wishlist item END -->
+                    }
+
+                </div>
+                <!-- Card body END -->
+            </div>
+            <!-- Pets Section END -->
+
+        </div>
+    }
+    else
+    {
+
+    }
+
+</div>
+@section Scripts
+    {
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+    @if (@ViewData["MENSAJE"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '@ViewData["MENSAJE"].ToString()',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    }
+}

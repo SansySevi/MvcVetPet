@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcVetPet.Models;
+using MvcVetPet.Services;
+using NugetVetPet.Models;
 using System.Diagnostics;
 
 namespace MvcVetPet.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private ServiceApp service;
+
+        public HomeController(ServiceApp service)
         {
-            _logger = logger;
+            this.service = service;
         }
 
         public IActionResult Index()
@@ -18,15 +21,11 @@ namespace MvcVetPet.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Servicios()
         {
-            return View();
+            List<Servicio> servicios = await this.service.GetServiciosAsync();
+            return View(servicios);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

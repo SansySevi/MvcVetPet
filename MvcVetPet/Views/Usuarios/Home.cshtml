@@ -1,0 +1,156 @@
+﻿
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Home";
+}
+
+
+<!-- Page title -->
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Hola de nuevo, @Context.User.Identity.Name!</h5>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-7 d-sm-flex flex-sm-column">
+        <div class="row flex-sm-fill">
+            <div class="col-sm-4">
+                <div class="card card-fluid tile-1">
+                    <div class="card-body tile slideTextUp">
+                        <a asp-controller="Usuarios" asp-action="Calendar" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                            <div><p>Calendario de citas</p></div>
+                            <div><p>Ve todas tus citas</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="card card-fluid bg-img">
+                    <div class="card-body text-center">
+                        <div class="tile tile-small tile tile-2 slideTextRight" data-page-type="s-page" data-page-name="random-restored-page">
+                            <div class="bg-light">
+                                <a asp-controller="Usuarios" asp-action="PedirCita"asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                                    <svg style="height: 7rem; margin: 1.5rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                        <!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192h80v56H48V192zm0 104h80v64H48V296zm128 0h96v64H176V296zm144 0h80v64H320V296zm80-48H320V192h80v56zm0 160v40c0 8.8-7.2 16-16 16H320V408h80zm-128 0v56H176V408h96zm-144 0v56H64c-8.8 0-16-7.2-16-16V408h80zM272 248H176V192h96v56z" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <div>
+                                <p>Solicitar Cita</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row flex-sm-fill">
+            <div class="col-sm-4">
+                <div class="card card-fluid tile-5">
+                    <div class="card-body tile">
+                        <a asp-controller="Usuarios" asp-action="Tratamientos" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                            <div><p>Tratamientos</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card card-fluid tile-7">
+                    <div class="card-body tile rotate3d rotate3dX">
+                        <div class="faces">
+                            <div class="front">
+                                <p>Historial Completo</p>
+                            </div>
+                            <div class="back">
+                                <a asp-controller="Usuarios" asp-action="HistorialVeterinario" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                                    <p>Ver Historial</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card card-fluid tile-8">
+                    <div class="card-body tile rotate3d rotate3dY">
+                        <div class="faces">
+                            <div class="front"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M441 7l32 32 32 32c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-15-15L417.9 128l55 55c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-72-72L295 73c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l55 55L422.1 56 407 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0zM210.3 155.7l61.1-61.1c.3 .3 .6 .7 1 1l16 16 56 56 56 56 16 16c.3 .3 .6 .6 1 1l-191 191c-10.5 10.5-24.7 16.4-39.6 16.4H97.9L41 505c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l57-57V325.3c0-14.9 5.9-29.1 16.4-39.6l43.3-43.3 57 57c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6l-57-57 41.4-41.4 57 57c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6l-57-57z" /></svg></div>
+                            <div class="back">
+                                <a asp-controller="Usuarios" asp-action="Vacunas" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                                    <p>Cartilla de Vacunación</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-5">
+        <div class="card card-fluid">
+            <div class="card-body tile-13">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card card-fluid">
+            <div class="card-body tile-11">
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="card card-fluid">
+            <div class="card-body tile-12">
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-5 d-sm-flex flex-sm-column">
+        <div class="row flex-sm-fill">
+            <div class="col-sm-6">
+                <div class="card card-fluid tile-1">
+                    <div class="card-body tile slideTextDown">
+                        <a asp-controller="Usuarios" asp-action="Pruebas" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value">
+                            <div>
+                                <svg style="margin-top: 1em;max-height: 6rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" /></svg>
+                            </div>
+                            <div><p>Descarga Pruebas</p></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card card-fluid">
+                    <div class="card-body text-center">
+                        <div class="avatar-parent-child">
+                            <a asp-controller="Usuarios" asp-action="UserZone" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value" class="avatar avatar-lg rounded-circle">
+                                <img alt="Image placeholder" src="~/uploads/usuarios/@Context.User.FindFirstValue("Imagen")">
+                            </a>
+                        </div>
+                        <h5 class="h6 mt-4 mb-0">Zona Usuario @Context.User.Identity.Name</h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row flex-sm-fill">
+
+            <div class="col-sm-12">
+                <div class="card card-fluid tile-4">
+                    <div class="card-body tile slideTextUp">
+                        <figure>
+                            <a asp-controller="Usuarios" asp-action="FAQs">
+                                <img src="~/images/userhome/questions.png" />
+                                <figcaption class="tile-caption caption-left">FAQ's</figcaption>
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
