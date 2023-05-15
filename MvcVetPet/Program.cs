@@ -1,5 +1,7 @@
+using Azure.Security.KeyVault.Secrets;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Azure;
 using MvcVetPet.Helpers;
 using MvcVetPet.Services;
 
@@ -8,9 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-string azureKeys =
-    builder.Configuration.GetValue<string>
-    ("AzureKeys:StorageAccount");
+builder.Services.AddAzureClients(factory =>
+{
+    factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
+});
+
+SecretClient secretClient =
+    builder.Services.BuildServiceProvider().GetService<SecretClient>();
+KeyVaultSecret keyVaultSecret = await
+    secretClient.GetSecretAsync("VetPetStorageAccountSecret");
+
+string azureKeys = keyVaultSecret.Value;
+
 BlobServiceClient blobServiceClient =
     new BlobServiceClient(azureKeys);
 builder.Services.AddTransient<BlobServiceClient>(

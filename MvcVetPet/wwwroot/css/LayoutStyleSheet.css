@@ -81,11 +81,11 @@ body {
         background-color: #000;
     }
 
-    
+
 
 .top-section {
     height: 100vh;
-    background: url("../images/top_img7.jpg") no-repeat center;
+    background: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/top_img7.jpg") no-repeat center;
     background-size: cover;
 }
 
@@ -945,7 +945,7 @@ body.nav-active .nav__list-item {
 .introServiceBox {
     position: relative;
     z-index: 2;
-    background: url("../images/servicios/service0.jpg") no-repeat center center;
+    background: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/service0.jpg") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

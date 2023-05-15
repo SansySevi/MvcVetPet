@@ -8,7 +8,7 @@
 }
 
 body {
-    background-image: url("../images/log_back.jpg");
+    background-image: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/log_back.jpg");
     background-size: cover;
     background-attachment: fixed;
     overflow: hidden;
@@ -213,7 +213,7 @@ svg {
 
     .screen {
         width: 100%;
-        background-image: url("../images/log_back.jpg");
+        background-image: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/log_back.jpg");
         background-size: cover;
         background-attachment: fixed;
         overflow: hidden;

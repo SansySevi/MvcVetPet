@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Vacunas";
+    List<Vacuna> vacunaslist = ViewData["Elementos"] as List<Vacuna>;
+}
+
+
+<!-- Page title -->
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Vacunas</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    @if (vacunaslist.Count > 0)
+    {
+        @if ((int)ViewData["TotalPaginas"] > 1)
+        {
+            <nav aria-label="Navegación de páginas">
+                <ul class="pagination">
+                    @for (int i = 1; i <= (int)ViewData["TotalPaginas"]; i++)
+                    {
+                        <li class="page-item @(i == (int)ViewData["PaginaActual"] ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Vacunas", "Usuarios", new { pagina = i })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+        <br />
+
+        @foreach (Vacuna item in vacunaslist)
+        {
+            <div class="card border">
+
+                <!-- Card body -->
+                <div class="card-body p-4 pb-0">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                        <!-- Pet detail -->
+                        <div class="col-sm-4 col-md-3">
+                            <h4>@item.NameMascota</h4>
+                        </div>
+
+                        <!-- Medication -->
+                        <div class="col-sm-5 col-md-4 my-sm-auto text-center">
+
+                            <h5>@item.NameVacuna</h5>
+                            <p class="mb-0">Lote:. @item.Lote</p>
+                            <div class="position-relative my-4">
+
+                                <hr class="bg-primary opacity-5 position-relative">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Time detail -->
+
+                        <div class="col-sm-3 col-md-3">
+                            <h4>@item.Fecha.ToString("dd-MM-yyyy")</h4>
+                        </div>
+
+                    </div>
+                    <!-- Ticket item END -->
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+         <div class="card border">
+
+            <!-- Card body -->
+            <div class="card-body p-4 pb-0">
+                <!-- Ticket item START -->
+                <div class="row g-4">
+                    <!-- Pet detail -->
+                    <div class="col-sm-4 col-md-3">
+                        <h4>No tiene REGISTROS DE VACUNAS</h4>
+                    </div>
+                </div>
+                <!-- Ticket item END -->
+            </div>
+        </div>
+    }
+
+</div>
+

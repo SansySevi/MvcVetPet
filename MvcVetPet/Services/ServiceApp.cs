@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Security.KeyVault.Secrets;
+using Azure.Storage.Blobs;
 using NugetVetPet.Models;
 using System.Net.Http.Headers;
 
@@ -12,10 +13,13 @@ namespace MvcVetPet.Services
         private MediaTypeWithQualityHeaderValue Header;
         private string UrlApi;
 
-        public ServiceApp(IConfiguration configuration, BlobServiceClient client)
+        public ServiceApp(SecretClient secretClient, BlobServiceClient client)
         {
+            KeyVaultSecret keyVaultSecret =
+                 secretClient.GetSecretAsync("ApiVetPetSecret").Result.Value;
             this.UrlApi =
-                configuration.GetValue<string>("ApiUrls:ApiVetPet");
+                keyVaultSecret.Value;
+
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
 

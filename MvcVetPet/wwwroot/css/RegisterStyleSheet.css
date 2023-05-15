@@ -8,7 +8,7 @@
 }
 
 body {
-    background-image: url("../images/register_back.jpeg");
+    background-image: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/register_back.jpeg");
     background-size: cover;
     background-attachment: fixed;
     overflow: hidden;
@@ -197,6 +197,153 @@ svg {
         transform: scale(1.5);
     }
 
+/**INPUT FILE**/
+
+.form-group {
+    position: relative;
+    padding: 1rem;
+}
+
+.file-button {
+    float: left;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: background-color .2s ease-out;
+    cursor: pointer;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 16px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    box-shadow: 0px 2px 2px #dda941;
+    border: 1px solid #e8e2d3;
+    font-family: Calibri, sans-serif;
+    color: #85827b;
+    min-height: 43px;
+    border-radius: 35px;
+    background-color: #fff;
+    width: 148px;
+    display: flex;
+    padding-left: 18px;
+}
+
+    .file-button span {
+        cursor: pointer;
+    }
+
+    .file-button input[type="file"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+.input-field {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    float: left;
+    box-sizing: border-box;
+    padding: 0 .75rem;
+    min-height: 1px;
+}
+
+    .input-field input[type="text"], .input-field input[type="text"]:invalid {
+        background-color: transparent;
+        border: none;
+        border-bottom-color: currentcolor;
+        border-bottom-style: none;
+        border-bottom-width: medium;
+        border-bottom: 1px solid #00bcd4;
+        border-radius: 0;
+        outline: none;
+        height: 3rem;
+        width: 100%;
+        font-size: 16px;
+        margin: 0 0 8px 0;
+        padding: 0;
+        transition: all .3s,
+    }
+
+        .input-field input[type="text"] + label, .input-field input[type="text"]:invalid + label {
+            left: .75rem;
+            color: #00bcd4;
+            position: absolute;
+            top: 0;
+            cursor: text;
+            transition: all .2s ease-out;
+            transform-origin: 0% 100%;
+            transform: translateY(12px);
+            text-align: initial;
+            font-weight: bold;
+            font: sans-serif;
+            float: left;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            border-radius: 2px;
+            display: inline-block;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+
+        .input-field input[type="text"]:focus {
+            border-bottom: 1px solid #26a69a;
+            -webkit-box-shadow: 0 1px 0 0 #26a69a;
+            box-shadow: 0 1px 0 0 #26a69a;
+        }
+
+            .input-field input[type="text"]:focus + label {
+                color: #26a69a;
+                transform: translateY(-2rem);
+                transform-origin: 0 0;
+            }
+
+            .input-field input[type="text"]:focus:valid {
+                border-bottom: 1px solid #4CAF50;
+                -webkit-box-shadow: 0 1px 0 0 #4CAF50;
+                box-shadow: 0 1px 0 0 #4CAF50;
+            }
+
+                .input-field input[type="text"]:focus:valid + label {
+                    color: #4CAF50;
+                    transform: translateY(-2rem);
+                    transform-origin: 0 0;
+                }
+
+            .input-field input[type="text"]:focus:invalid + label {
+                color: #f44336;
+                transform: translateY(-2rem);
+                transform-origin: 0 0;
+            }
+
+            .input-field input[type="text"]:focus:invalid {
+                border-bottom: 1px solid #f44336;
+                -webkit-box-shadow: 0 1px 0 0 #f44336;
+                box-shadow: 0 1px 0 0 #f44336;
+            }
+
+        .input-field input[type="text"]:valid {
+            border-bottom: 1px solid #4CAF50;
+            -webkit-box-shadow: 0 1px 0 0 #4CAF50;
+            box-shadow: 0 1px 0 0 #4CAF50;
+        }
+
+            .input-field input[type="text"]:valid + label {
+                color: #4CAF50;
+                transform: translateY(-2rem);
+                transform-origin: 0 0;
+            }
 
 
 
@@ -213,7 +360,7 @@ svg {
 
     .screen {
         width: 100%;
-        background-image: url("../images/register_back.jpeg");
+        background-image: url("https://vetpetstorage.blob.core.windows.net/vetcareimages/register_back.jpeg");
         background-size: cover;
         background-attachment: fixed;
         overflow: hidden;
@@ -267,7 +414,6 @@ svg {
         background-color: white;
         background-image: none;
     }
-
 }
 
 /*@media (max-width: 546px) {

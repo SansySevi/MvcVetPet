@@ -41,8 +41,18 @@
                         <input type="password" name="password" class="login__input" placeholder="Password">
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
-                    <label>Seleccione un fichero</label>
-                    <input type="file" name="file" class="form-control" />
+
+                    <div class="form-group row">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <div class="file-button">
+                                <span>File</span>
+                                <input type="file" name="file" id="Thumbnail-Create" required />
+                            </div>
+                            @*<div class="file-path-wrapper">
+                                <output id="Output-Thumbnail"></output>
+                            </div>*@
+                        </div>
+                    </div>
 
                     <button class="button login__submit">
                         <span class="button__text">Sing Up</span>

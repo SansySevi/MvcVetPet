@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using NugetVetPet.Models;
 using System.Net.Http.Headers;
 using System.Text;
+using Azure.Security.KeyVault.Secrets;
 
 namespace MvcVetPet.Services
 {
@@ -14,10 +15,12 @@ namespace MvcVetPet.Services
         private MediaTypeWithQualityHeaderValue Header;
         private string UrlApiUsuarios;
 
-        public ServiceUsuarios(IConfiguration configuration, BlobServiceClient client)
+        public ServiceUsuarios(SecretClient secretClient, BlobServiceClient client)
         {
+            KeyVaultSecret keyVaultSecret =
+                 secretClient.GetSecretAsync("ApiVetPetSecret").Result.Value;
             this.UrlApiUsuarios =
-                configuration.GetValue<string>("ApiUrls:ApiVetPet");
+                keyVaultSecret.Value;
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
 
@@ -108,7 +111,7 @@ namespace MvcVetPet.Services
 
 
         public async Task GetRegisterUserAsync
-            (string nombre, string email, string username, string password, string imagen)
+            (string username, string email, string password, string imagen)
         {
 
             using (HttpClient client = new HttpClient())
@@ -120,12 +123,13 @@ namespace MvcVetPet.Services
 
                 Usuario usuario = new Usuario();
                 usuario.IdUsuario = 0;
-                usuario.Nombre = nombre;
+                usuario.Nombre = username;
                 usuario.Apodo = username;
                 usuario.Email = email;
                 usuario.Pass = password;
-                usuario.Salt = default;
-                usuario.Password = default;
+                usuario.Salt = "";
+                usuario.Telefono = "666666666";
+                usuario.Password = Encoding.UTF8.GetBytes("valor_predeterminado");
                 usuario.Imagen = imagen;
 
                 string json = JsonConvert.SerializeObject(usuario);
@@ -137,6 +141,7 @@ namespace MvcVetPet.Services
             }
         }
 
+        #region USUARIOS
 
         public async Task<Usuario> GetPerfilUsuarioAsync
             (string token)
@@ -147,13 +152,61 @@ namespace MvcVetPet.Services
             return usuario;
         }
 
+        public async Task<List<Evento>> GetEventos(string token)
+        {
+            string request = "/api/usuarios/eventos";
+            List<Evento> eventos = await
+                this.CallApiAsync<List<Evento>>(request, token);
+            return eventos;
+        }
+
+        #endregion
+
+        #region MASCOTAS
+
         public async Task<List<Mascota>> GetMascotas(string token)
         {
             string request = "/api/mascotas";
             List<Mascota> mascotas = await
                 this.CallApiAsync<List<Mascota>>(request, token);
             return mascotas;
+        }       
+
+        public async Task<List<Tratamiento>> GetTratamientos(string token)
+        {
+            string request = "/api/mascotas/tratamientos";
+            List<Tratamiento> tratamientos = await
+                this.CallApiAsync<List<Tratamiento>>(request, token);
+            return tratamientos;
         }
+
+        public async Task<List<Vacuna>> GetVacunas(string token)
+        {
+            string request = "/api/mascotas/vacunas";
+            List<Vacuna> vacunas = await
+                this.CallApiAsync<List<Vacuna>>(request, token);
+            return vacunas;
+        }
+
+        public async Task<List<Prueba>> GetPruebas(string token)
+        {
+            string request = "/api/mascotas/pruebas";
+            List<Prueba> pruebas = await
+                this.CallApiAsync<List<Prueba>>(request, token);
+            return pruebas;
+        }
+
+        public async Task<List<Procedimiento>> GetProcedimientos(string token)
+        {
+            string request = "/api/mascotas/procedimientos";
+            List<Procedimiento> procedimientos = await
+                this.CallApiAsync<List<Procedimiento>>(request, token);
+            return procedimientos;
+        }
+
+        #endregion
+
+
 
     }
 }

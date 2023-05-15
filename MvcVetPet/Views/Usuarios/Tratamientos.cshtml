@@ -1,0 +1,98 @@
+﻿@model List<Tratamiento>
+
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Tratamientos";
+}
+
+<!-- Page title -->
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Tratamientos</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    @if (Model.Count > 0)
+    {
+        @foreach (Tratamiento item in Model)
+        {
+            <div class="card border">
+                <!-- Card header -->
+                <div class="card-header d-sm-flex justify-content-sm-between align-items-center">
+                    <!-- Airline Name -->
+                    <div class="d-flex align-items-center mb-2 mb-sm-0">
+                        <h6 class="fw-normal mb-0">@item.Descripcion</h6>
+                    </div>
+                </div>
+
+                <!-- Card body -->
+                <div class="card-body p-4 pb-0">
+                    <!-- Ticket item START -->
+                    <div class="row g-4">
+                        <!-- Pet detail -->
+                        <div class="col-sm-4 col-md-3">
+                            <h4>@item.NameMascota</h4>
+                        </div>
+
+                        <!-- Medication -->
+                        <div class="col-sm-4 col-md-3 my-sm-auto text-center">
+
+                            <h5>@item.NombreMedicacion</h5>
+                            <div class="position-relative my-4">
+
+                                <hr class="bg-primary opacity-5 position-relative">
+
+                            </div>
+                        </div>
+
+                        <!-- Time detail -->
+
+                        <div class="col-sm-4 col-md-3">
+                            <h4>@item.Dosis</h4>
+                            @if (item.FechaFin.ToString("yyyy-MM-dd") != "0001-01-01")
+                            {
+                                <p class="mb-0">@item.FechaInicio.ToString("yyyy-MM-dd") - @item.FechaFin.ToString("yyyy-MM-dd")</p>
+                            }
+                            else
+                            {
+                                <p class="mb-0">@item.FechaInicio.ToString("yyyy-MM-dd")</p>
+                            }
+
+                        </div>
+
+                    </div>
+                    <!-- Ticket item END -->
+                </div>
+
+                <!-- Card footer -->
+                <div class="card-footer pt-4">
+                    <ul class="list-inline bg-light rounded-2 d-sm-flex text-center justify-content-sm-between mb-0 px-4 py-2">
+                        <li class="list-inline-item text-danger">Duración: @item.Duracion</li>
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card border">
+
+            <!-- Card body -->
+            <div class="card-body p-4 pb-0">
+                <!-- Ticket item START -->
+                <div class="row g-4">
+                    <!-- Pet detail -->
+                    <div class="col-sm-4 col-md-3">
+                        <h4>No tiene ningun TRATAMIENTO</h4>
+                    </div>
+                </div>
+                <!-- Ticket item END -->
+            </div>
+        </div>
+    }
+
+</div>

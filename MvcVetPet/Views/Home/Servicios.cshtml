@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Servicios";
+    List<BlobModel> listBlobs = ViewData["SERVICIOS"] as List<BlobModel>;
 }
 
 <section id="services">
@@ -35,17 +36,32 @@
             </div>
         </div>
         <div class="serviceBox blackBox text-center">
-            <div class="valign">
-                <img src="~/images/servicios/@Model[i].Imagen">
-            </div>
+            @foreach (BlobModel blob in listBlobs)
+            {
+
+                @if (blob.Nombre == Model[i].Imagen)
+                {
+                    <div class="valign">
+                        <img src="@blob.Url">
+                    </div>
+                }
+            }
+
         </div>
 
         @if (i + 1 < Model.Count)
         {
             <div class="serviceBox blackBox text-center">
-                <div class="valign">
-                    <img src="~/images/servicios/@Model[i+1].Imagen">
-                </div>
+                @foreach (BlobModel blob in listBlobs)
+                {
+
+                    @if (blob.Nombre == Model[i + 1].Imagen)
+                    {
+                        <div class="valign">
+                            <img src="@blob.Url">
+                        </div>
+                    }
+                }
             </div>
             <div class="serviceBox whiteBox text-center">
                 <div class="valign">

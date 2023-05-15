@@ -10,10 +10,12 @@ namespace MvcVetPet.Controllers
     {
 
         private ServiceApp service;
+        private ServiceStorageBlobs serviceBlob;
 
-        public HomeController(ServiceApp service)
+        public HomeController(ServiceApp service, ServiceStorageBlobs serviceBlob)
         {
             this.service = service;
+            this.serviceBlob = serviceBlob;
         }
 
         public IActionResult Index()
@@ -24,6 +26,17 @@ namespace MvcVetPet.Controllers
         public async Task<IActionResult> Servicios()
         {
             List<Servicio> servicios = await this.service.GetServiciosAsync();
+
+            List<BlobModel> listBlobs = new List<BlobModel>();
+
+            foreach(Servicio servicio in servicios)
+            {
+                BlobModel blob = 
+                    await this.serviceBlob.FindBlob("vetcareimages", servicio.Imagen);
+                listBlobs.Add(blob);
+            }
+                
+            ViewData["SERVICIOS"] = listBlobs;
             return View(servicios);
         }
 

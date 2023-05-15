@@ -1,0 +1,87 @@
+﻿@model List<Prueba>
+
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Pruebas";
+}
+
+<!-- Page title -->
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Pruebas</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @if (Model.Count > 0)
+    {
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header actionss-toolbar border-0">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col">
+                        <h6 class="d-inline-block mb-0">Tabla de archivos</h6>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card body -->
+            <div>
+                <!-- Ticket item START -->
+                <div class="table-responsive">
+                    <table class="table align-items-center">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Perro</th>
+                                <th>Fecha</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Prueba item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Descripcion
+                                    </td>
+                                    <td>
+                                        @item.NameMascota
+                                    </td>
+                                    <td>
+                                        @item.Fecha.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td class="btn_desc">
+                                        <a href="~/uploads//ficheros//@item.NameFile">
+                                            <svg style="max-height: 4em;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.3.0 by @@fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z" /></svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Ticket item END -->
+            </div>
+        </div>
+    } else
+    {
+        <div class="card border">
+
+            <!-- Card body -->
+            <div class="card-body p-4 pb-0">
+                <!-- Ticket item START -->
+                <div class="row g-4">
+                    <!-- Pet detail -->
+                    <div class="col-sm-4 col-md-3">
+                        <h4>No se ha realizado NINGUNA PRUEBA</h4>
+                    </div>
+                </div>
+                <!-- Ticket item END -->
+            </div>
+        </div>
+    }
+
+</div>

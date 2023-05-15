@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Procedimientos";
+    List<Procedimiento> procedimientoslist = ViewData["Elementos"] as List<Procedimiento>;
+}
+
+
+<!-- Page title -->
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Historial Clínico</h5>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    @if (procedimientoslist.Count > 0)
+    {
+        @if ((int)ViewData["TotalPaginas"] > 1)
+        {
+            <nav aria-label="Navegación de páginas">
+                <ul class="pagination">
+                    @for (int i = 1; i <= (int)ViewData["TotalPaginas"]; i++)
+                    {
+                        <li class="page-item @(i == (int)ViewData["PaginaActual"] ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("HistorialVeterinario", "Usuarios", new { pagina = i })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+        <br />
+
+        @foreach (Procedimiento item in procedimientoslist)
+        {
+            <div class="card border">
+                <!-- Card header -->
+                <div class="card-header border-bottom">
+                    <h4 class="card-header-title">@item.Tipo - @item.NameMascota</h4>
+                </div>
+
+                <!-- Card body START -->
+                <div class="card-body">
+                    <div class="row g-3" >
+                        
+                        <!-- Medicamentos -->
+                        <div class="col-md-6">
+                            <p><b>Medicamentos usados:</b> @item.Medicamentos</p>
+                        </div>
+
+                        <!-- Fecha -->
+                        <div class="col-md-6">
+                            <p><b>Fecha:</b> @item.Fecha.ToString("dd-MM-yyyy")</p>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="col-md-12">
+                            <p class="fs-4">Observaciones:</p>
+                            <p>@item.Observaciones</p>
+                        </div>
+
+                        @if(item.Recomendaciones.Length > 3)
+                        {
+                            <!-- Recomendaciones -->
+                            <div class="col-md-12">
+                                <p class="fs-4">Recomendaciones:</p>
+                                <p>@item.Recomendaciones</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Card body END -->
+            </div>
+
+            <br />
+        }
+    }
+    else
+    {
+        <div class="card border">
+
+            <!-- Card body -->
+            <div class="card-body p-4 pb-0">
+                <!-- Ticket item START -->
+                <div class="row g-4">
+                    <!-- Pet detail -->
+                    <div class="col-sm-4 col-md-3">
+                        <h4>No se encuentran PROCEDIMIENTOS almacenados</h4>
+                    </div>
+                </div>
+                <!-- Ticket item END -->
+            </div>
+        </div>
+    }
+
+</div>
+

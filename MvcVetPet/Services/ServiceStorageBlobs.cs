@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Security.KeyVault.Secrets;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using NugetVetPet.Models;
@@ -12,11 +13,14 @@ namespace MvcVetPet.Services
         private BlobServiceClient client;
         private string UrlAzureStorage;
 
-        public ServiceStorageBlobs(IConfiguration configuration, BlobServiceClient client)
+        public ServiceStorageBlobs(SecretClient secretClient, BlobServiceClient client)
         {
             this.client = client;
-            this.UrlAzureStorage =
-                configuration.GetValue<string>("AzureKeys:StorageAccount");
+
+            KeyVaultSecret keyVaultSecret = 
+                 secretClient.GetSecretAsync("VetPetStorageAccountSecret").Result.Value;
+
+            this.UrlAzureStorage = keyVaultSecret.Value;
         }
 
 
@@ -42,6 +46,35 @@ namespace MvcVetPet.Services
         }
 
         //METODO PARA RECUPERAR UN BLOBS
+        public async Task<BlobModel> FindBlob(string containerName, string blobName)
+        {
+            string connectionString = this.UrlAzureStorage;
+
+            // RECUPERAMOS UN CLIENT DEL CONTAINER
+            BlobContainerClient containerClient =
+                this.client.GetBlobContainerClient(containerName);
+            List<BlobModel> blobModels = new List<BlobModel>();
+            await foreach (BlobItem item in containerClient.GetBlobsAsync())
+            {
+                // NECESITAMOS UN BLOB CLIENT PARA VISUALIZAR MAS CARACTERISTICAS DEL OBJETO
+                BlobClient blobClient =
+                    containerClient.GetBlobClient(item.Name);
+
+                if (item.Name == blobName)
+                {
+                    BlobModel model = new BlobModel();
+                    model.Nombre = item.Name;
+                    model.Contenedor = containerName;
+                    model.Url = blobClient.Uri.AbsoluteUri;
+                    blobModels.Add(model);
+                }
+
+            };
+            BlobModel blobFind = blobModels.FirstOrDefault();
+            return blobFind;
+        }
+
+        //METODO PARA RECUPERAR UN BLOBS PRIVADO
         public async Task<BlobModel> FindBlobPerfil(string containerName, string blobName, string usuario)
         {
             string connectionString = this.UrlAzureStorage;
