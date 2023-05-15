@@ -2,6 +2,7 @@
 @{
     Layout = "_TemplateUser";
     ViewData["Title"] = "Home";
+    BlobModel imgPerfil = ViewData["IMAGEN_PERFIL"] as BlobModel;
 }
 
 
@@ -128,7 +129,12 @@
                     <div class="card-body text-center">
                         <div class="avatar-parent-child">
                             <a asp-controller="Usuarios" asp-action="UserZone" asp-route-idusuario="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value" class="avatar avatar-lg rounded-circle">
-                                <img alt="Image placeholder" src="~/uploads/usuarios/@Context.User.FindFirstValue("Imagen")">
+                                @if(imgPerfil != null) {
+                                    <img alt="Image placeholder" src="@imgPerfil.Url">
+                                } else
+                                {
+                                    <img alt="Image placeholder" src="">
+                                }
                             </a>
                         </div>
                         <h5 class="h6 mt-4 mb-0">Zona Usuario @Context.User.Identity.Name</h5>

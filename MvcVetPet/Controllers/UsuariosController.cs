@@ -28,8 +28,23 @@ namespace MvcVetPet.Controllers
         }
 
         [AuthorizeUsuarios]
-        public IActionResult Home()
+        public async Task<IActionResult> Home()
         {
+            string token =
+                HttpContext.Session.GetString("TOKEN");
+            Usuario usuario = await
+                this.service.GetPerfilUsuarioAsync(token);
+
+            if(token != null)
+            {
+                BlobModel blobPerfil = await this.serviceblob.FindBlobPerfil("usuariosimages", usuario.Imagen, usuario.Nombre);
+                ViewData["IMAGEN_PERFIL"] = blobPerfil;
+            } else
+            {
+                return RedirectToAction("Logout","Usuarios");
+            }
+            
+            
             return View();
         }
 
