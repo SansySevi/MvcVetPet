@@ -5,6 +5,7 @@ using NugetVetPet.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using Azure.Security.KeyVault.Secrets;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MvcVetPet.Services
 {
@@ -14,6 +15,7 @@ namespace MvcVetPet.Services
 
         private MediaTypeWithQualityHeaderValue Header;
         private string UrlApiUsuarios;
+        private string urlEmail;
 
         public ServiceUsuarios(SecretClient secretClient, BlobServiceClient client)
         {
@@ -21,6 +23,12 @@ namespace MvcVetPet.Services
                  secretClient.GetSecretAsync("ApiVetPetSecret").Result.Value;
             this.UrlApiUsuarios =
                 keyVaultSecret.Value;
+
+            KeyVaultSecret keyVaultSecretEmail =
+                 secretClient.GetSecretAsync("EmailUri").Result.Value;
+            this.urlEmail =
+                keyVaultSecretEmail.Value;
+
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
 
@@ -109,6 +117,29 @@ namespace MvcVetPet.Services
             }
         }
 
+        public async Task SendMailAsync(string email, string asunto, string mensaje)
+        {
+            
+            var model = new
+            {
+                email = email,
+                subject = asunto,
+                mensaje = mensaje
+            };
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                string json = JsonConvert.SerializeObject(model);
+                StringContent content =
+                    new StringContent(json, Encoding.UTF8, "application/json");
+                await client.PostAsync(this.urlEmail, content);
+            }
+        }
+
+
+        #region USUARIOS
 
         public async Task GetRegisterUserAsync
             (string username, string email, string password, string imagen)
@@ -141,8 +172,6 @@ namespace MvcVetPet.Services
             }
         }
 
-        #region USUARIOS
-
         public async Task<Usuario> GetPerfilUsuarioAsync
             (string token)
         {
@@ -150,6 +179,37 @@ namespace MvcVetPet.Services
             Usuario usuario = await
                 this.CallApiAsync<Usuario>(request, token);
             return usuario;
+        }
+
+        public async Task<Usuario> UpdateUsuario(int idusuario, string nombre, string apodo,
+            string email, string telefono, string fileName, string token)
+        {
+
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/usuarios";
+                client.BaseAddress = new Uri(this.UrlApiUsuarios);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add
+                    ("Authorization", "bearer " + token);
+
+                Usuario user = await GetPerfilUsuarioAsync(token);
+                user.Nombre = nombre;
+                user.Apodo = apodo;
+                user.Email = email;
+                user.Telefono = telefono;
+                user.Imagen = fileName;
+
+                string json = JsonConvert.SerializeObject(user);
+
+                StringContent content =
+                    new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+
+                return user;
+            }
         }
 
         public async Task<List<Evento>> GetEventos(string token)
@@ -160,9 +220,85 @@ namespace MvcVetPet.Services
             return eventos;
         }
 
+        public async Task<List<Cita>> GetCitas(string token)
+        {
+            string request = "/api/usuarios/citas";
+            List<Cita> citas = await
+                this.CallApiAsync<List<Cita>>(request, token);
+            return citas;
+        }
+
+        public async Task CreateCita(int idusuario, int idmascota, string tipo, DateTime fecha, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/usuarios/solicitarcita";
+                client.BaseAddress = new Uri(this.UrlApiUsuarios);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add
+                    ("Authorization", "bearer " + token);
+
+                Cita cita = new Cita();
+                cita.IdCita = 0;
+                cita.TipoCita = tipo;
+                cita.IdMascota = idmascota;
+                cita.IdUsuario = idusuario;
+                cita.DiaCita = fecha;
+
+                string json = JsonConvert.SerializeObject(cita);
+
+                StringContent content =
+                    new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
+
+        }
+
         #endregion
 
         #region MASCOTAS
+
+        public async Task<Mascota> FindMascotaAsync
+            (string token, int id)
+        {
+            string request = "/api/mascotas/mascota/" + id;
+            Mascota mascota = await
+                this.CallApiAsync<Mascota>(request, token);
+            return mascota;
+        }
+
+        public async Task<Mascota> UpdateMascota(int idusuario, int idmascota, string nombre, string raza,
+            string tipo, int peso, DateTime fechanacimiento, string fileName, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/mascotas";
+                client.BaseAddress = new Uri(this.UrlApiUsuarios);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add
+                    ("Authorization", "bearer " + token);
+
+                Mascota mascota = await FindMascotaAsync(token, idmascota);
+                mascota.Nombre = nombre;
+                mascota.Raza = raza;
+                mascota.Tipo = tipo;
+                mascota.Peso = peso;
+                mascota.Fecha_Nacimiento = fechanacimiento;
+                mascota.Imagen = fileName;
+
+                string json = JsonConvert.SerializeObject(mascota);
+
+                StringContent content =
+                    new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+
+                return mascota;
+            }
+        }
 
         public async Task<List<Mascota>> GetMascotas(string token)
         {
@@ -205,8 +341,6 @@ namespace MvcVetPet.Services
         }
 
         #endregion
-
-
 
     }
 }

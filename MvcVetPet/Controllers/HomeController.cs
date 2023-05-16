@@ -28,7 +28,6 @@ namespace MvcVetPet.Controllers
             List<Servicio> servicios = await this.service.GetServiciosAsync();
 
             List<BlobModel> listBlobs = new List<BlobModel>();
-
             foreach(Servicio servicio in servicios)
             {
                 BlobModel blob = 

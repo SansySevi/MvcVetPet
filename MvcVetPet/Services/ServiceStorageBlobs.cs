@@ -75,7 +75,7 @@ namespace MvcVetPet.Services
         }
 
         //METODO PARA RECUPERAR UN BLOBS PRIVADO
-        public async Task<BlobModel> FindBlobPerfil(string containerName, string blobName, string usuario)
+        public async Task<BlobModel> FindBlobPrivado(string containerName, string blobName, string usuario)
         {
             string connectionString = this.UrlAzureStorage;
 

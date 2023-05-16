@@ -4,6 +4,7 @@
     Layout = "_TemplateUser";
     ViewData["Title"] = "User Zone";
     BlobModel imgPerfil = ViewData["IMAGEN_PERFIL"] as BlobModel;
+    List<BlobModel> listBlobs = ViewData["MASCOTAS"] as List<BlobModel>;
 }
 
 <div class="container">
@@ -24,7 +25,14 @@
                         <label class="position-relative me-4" for="uploadfile-1" title="Replace this pic">
                             <!-- Avatar place holder -->
                             <span class="avatar avatar-xl">
-                                <img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="@imgPerfil.Url" alt="">
+                                @if (imgPerfil != null)
+                                {
+                                    <img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="@imgPerfil.Url" alt="">
+                                }
+                                else
+                                {
+                                    <img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="https://vetpetstorage.blob.core.windows.net/vetcareimages/user_default_bw.webp" alt="">
+                                }
                             </span>
                         </label>
                         <!-- Upload button -->
@@ -93,7 +101,22 @@
                                 <!-- Card img -->
                                 <div class="col-md-3">
                                     <span class="avatar avatar-xl rounded-circle border border-white border-3 shadow">
-                                        <img id="uploadfile-1-preview" class="avatar-img " src="~/uploads/mascotas/@item.Imagen" alt="">
+                                        @if (listBlobs != null)
+                                        {
+                                            var blob = listBlobs.FirstOrDefault(b => b.Nombre == item.Imagen);
+                                            if (blob != null)
+                                            {
+                                                <img id="uploadfile-1-preview" class="avatar-img" src="@blob.Url" alt="">
+                                            }
+                                            else
+                                            {
+                                                <img id="uploadfile-1-preview" class="avatar-img" src="https://vetpetstorage.blob.core.windows.net/vetcareimages/default_pet.webp" alt="">
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <img id="uploadfile-1-preview" class="avatar-img" src="https://vetpetstorage.blob.core.windows.net/vetcareimages/default_pet.webp" alt="">
+                                        }
                                     </span>
                                 </div>
                                 <!-- Card body -->

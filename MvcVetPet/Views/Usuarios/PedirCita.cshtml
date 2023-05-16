@@ -1,0 +1,219 @@
+﻿@model List<Cita>
+
+@{
+    Layout = "_TemplateUser";
+    ViewData["Title"] = "Pedir Cita";
+    List<Mascota> mascotas = (List<Mascota>)ViewData["MASCOTAS"];
+}
+
+<div class="page-title">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5 class="h3 font-weight-400 mb-0 text-white">Solicitar cita</h5>
+        </div>
+    </div>
+</div>
+
+@if (mascotas != null){
+
+
+<div class="container">
+    <div class="card border">
+
+        <!-- Card body START -->
+        <div class="card-body">
+            <!-- Form START -->
+            <form class="row g-3" method="post" enctype="multipart/form-data">
+
+                <!-- Id's' -->
+                <input name="idusuario" type="hidden" class="form-control" value="@Context.User.FindFirst(ClaimTypes.NameIdentifier).Value" />
+
+                <!-- Pet -->
+                <div class="col-md-12">
+                    <label class="form-label">Mascota<span class="text-danger">*</span></label>
+                    <select name="idmascota" class="form-control">
+                        @foreach (Mascota item in mascotas)
+                        {
+                                <option value="@item.IdMascota">
+                                    @item.Nombre
+                                </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Type -->
+                <div class="col-md-12">
+                    <label class="form-label">Tipo<span class="text-danger">*</span></label>
+                    <select name="tipo" class="form-control">
+                            <option>General</option>
+                            <option>Revisión</option>
+                            <option>Pruebas</option>
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="col-md-6">
+                    <label class="form-label">Fecha<span class="text-danger">*</span></label>
+                    <input type="date" name="fecha" class="form-control" id="cita_fecha">
+                </div>
+
+                <!-- Time -->
+                <div class="col-md-6 select-hidden" id="section_time">
+                    <label class="form-label">Hora<span class="text-danger">*</span></label>
+                    <select id="cita_hora" class="form-control" name="hora">
+                    </select>
+                </div>
+
+
+                <!-- Button -->
+                <div class="col-12 text-end">
+                    <button class="btn btn-warning mb-0">Solicitar Cita</button>
+                </div>
+            </form>
+            <!-- Form END -->
+        </div>
+        <!-- Card body END -->
+    </div>
+
+</div>
+}
+
+<style>
+    .select-hidden {
+      display: none;
+    }
+
+    .select-visible {
+      display: block;
+      /* estilos adicionales aquí */
+    }
+</style>
+
+
+@section Scripts
+    {
+
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+    @if (@ViewData["MENSAJE"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                                title: '@ViewData["MENSAJE"].ToString()',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        </script>
+    }
+
+<script>
+    $(document).ready(function() {
+        var fechaActual = new Date();
+        fechaActual.setDate(fechaActual.getDate() + 1);
+        var fechaMinima = fechaActual.toISOString().split('T')[0];
+        document.getElementById("cita_fecha").setAttribute("min", fechaMinima);
+
+        var citasJson = '@Html.Raw(ViewData["CITAS"])'; // Obtener la cadena JSON desde ViewData
+        var citasArray = JSON.parse(citasJson); // Convertir la cadena JSON en un array de objetos
+        var selectHoras = $("#cita_hora");
+        var horasOcupadas = [];
+
+        // Recorremos el array de citas y añadimos las horas ocupadas al array horasOcupadas
+            for (var i = 0; i < citasArray.length; i++) {
+        var fechaCita = new Date(citasArray[i].DiaCita);
+        var horaCita = fechaCita.getHours();
+        var minutoCita = fechaCita.getMinutes();
+        var diaHora = {
+            dia: fechaCita.toISOString().split('T')[0],
+            hora: horaCita + ':' + (minutoCita < 10 ? '0' + minutoCita : minutoCita)
+        };
+        horasOcupadas.push(diaHora);
+    }
+
+        console.log(horasOcupadas)
+
+
+        // obtén los elementos de fecha y hora
+        var fechaInput = $('#cita_fecha');
+        var horaSelect = $('#cita_hora');
+        var sectionTime = $('#section_time');
+
+
+        // define una función para agregar opciones al select de hora
+            function agregarOpcionesDeHora(min, max) {
+                // obtén la fecha seleccionada
+                var fechaSeleccionada = fechaInput.val();
+
+                // crea una fecha a partir del valor seleccionado
+                var fecha = new Date(fechaSeleccionada);
+
+                // elimina las opciones existentes en el select
+                horaSelect.empty();
+
+                // agrega opciones 
+                for (var hora = min; hora < max; hora++) {
+                    for (var minuto = 0; minuto < 60; minuto += 15) {
+                        // crea una fecha con la hora actual
+                        var fechaHora = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate(), hora, minuto);
+
+                        // convierte la fecha a una cadena en formato "hh:mm"
+                        var horaTexto = fechaHora.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
+
+                        // agrega la opción al select
+                        horaSelect.append($('<option>', {
+                        value: horaTexto,
+                        text: horaTexto
+                        }));
+                    }
+                }
+
+                // recorrer todas las opciones del select y deshabilitar las opciones que corresponden a horas ocupadas
+                    $('#cita_hora option').each(function() {
+                      var horaOption = $(this).val();
+
+                      // Si la hora de la opción está en el array de horas ocupadas, la eliminamos
+                        if (horasOcupadas.some((elem) => elem.dia === fechaSeleccionada && elem.hora === horaOption)) {
+                          $(this).remove();
+                        }
+                    });
+            }
+
+        // registra un evento de cambio en el campo de fecha
+        fechaInput.change(function() {
+        var fechaTexto = fechaInput.val();
+        var min = 10;
+        var max = 20;
+
+            if (fechaTexto) {
+                sectionTime.addClass('select-visible').removeClass('select-hidden');
+            // rellenar el select con opciones de hora aquí
+            } else {
+                sectionTime.addClass('select-hidden').removeClass('select-visible');
+            horaSelect.empty();
+            }
+
+        // obtén el valor de la fecha
+            var fechaTexto = fechaInput.val();
+
+            // crea una fecha a partir del valor seleccionado
+            var fecha = new Date(fechaTexto);
+
+            // obtén el nombre del día de la semana (por ejemplo, "Monday")
+            var diaDeLaSemana = fecha.toLocaleDateString('es-ES', {weekday: 'long'});
+
+            if(diaDeLaSemana == 'domingo') {
+                            max = 14;
+                            min = 11;
+                } else if(diaDeLaSemana == 'sábado') {
+                            max = 14;
+                } 
+
+            agregarOpcionesDeHora(min, max);
+
+        // cuando la fecha cambia, agrega opciones al select de hora
+
+        });
+    });
+</script>
+}

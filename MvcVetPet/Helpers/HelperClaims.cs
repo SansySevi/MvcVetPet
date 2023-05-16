@@ -14,7 +14,7 @@ namespace MvcVetPet.Helpers
             this.contextAccessor = contextAccessor;
         }
 
-        public async Task GetClaims(Usuario user)
+        public async Task GetClaims(Usuario user, string blobUrl)
         {
             ClaimsIdentity identity =
                     new ClaimsIdentity
@@ -29,7 +29,7 @@ namespace MvcVetPet.Helpers
             identity.AddClaim(ClaimId);
 
             Claim claimImagen =
-                new Claim("Imagen", user.Imagen.ToString());
+                new Claim("Imagen", blobUrl);
             identity.AddClaim(claimImagen);
 
             Claim claimEmail =
