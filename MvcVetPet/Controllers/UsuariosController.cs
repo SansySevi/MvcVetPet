@@ -278,7 +278,7 @@ namespace MvcVetPet.Controllers
             DateTime fechaFormateada = DateTime.ParseExact(fecha, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             string email = usuario.Email;
             string asunto = "Cita Solicita Correctamente";
-            string mensaje = "Cita solicitada para mascota:" + mascota.Nombre + " en el día " + fechaFormateada.ToString("dd-MM-yyyy");
+            string mensaje = "Cita solicitada para mascota:" + mascota.Nombre + " en el día " + fechaFormateada.ToString("dd-MM-yyyy") + " a las " + hora;
 
             await this.service.SendMailAsync(email, asunto, mensaje);
 
@@ -300,7 +300,7 @@ namespace MvcVetPet.Controllers
                 this.service.GetPerfilUsuarioAsync(token);
             Mascota mascota = await this.service.FindMascotaAsync(token, idmascota);
 
-            BlobModel blobPerfil = await this.serviceblob.FindBlobPrivado("usuariosimages", mascota.Imagen, usuario.Apodo);
+            BlobModel blobPerfil = await this.serviceblob.FindBlobPrivado("mascotasimages", mascota.Imagen, usuario.Apodo);
             ViewData["IMAGEN_MASCOTA"] = blobPerfil;
             return View(mascota);
         }
@@ -319,7 +319,11 @@ namespace MvcVetPet.Controllers
 
             if (fichero != null)
             {
-                await this.serviceblob.DeleteBlobAsync("mascotasimages", mascota.Imagen);
+                if(mascota.Imagen != "default_pet.webp")
+                {
+                    await this.serviceblob.DeleteBlobAsync("mascotasimages", mascota.Imagen);
+
+                }
 
                 string fileName = fichero.FileName;
                 using (Stream stream = fichero.OpenReadStream())

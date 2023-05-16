@@ -200,6 +200,10 @@ namespace MvcVetPet.Services
                 user.Email = email;
                 user.Telefono = telefono;
                 user.Imagen = fileName;
+                user.Pass = "default";
+                user.Salt = "";
+                user.Telefono = telefono;
+                user.Password = Encoding.UTF8.GetBytes("valor_predeterminado");
 
                 string json = JsonConvert.SerializeObject(user);
 
